@@ -9,66 +9,6 @@
 import UIKit
 fileprivate let  Margin: CGFloat = 5.0
 class MZDrawView: UIView {
-    // public func
-    /// 在不用的时候要call一下 停掉link
-    // 比如 vc的deinit方法里
-    open func invalidateLink() {
-        guard let displayLink = self.displayLink else {
-            return
-        }
-        displayLink.isPaused = true
-        displayLink.invalidate()
-    }
-
-    // private func
-    /// 倒计时 1/60s调用一次
-    @objc private func countDown() {
-        if progress < 0.0 || progress > 1.0 {
-            invalidateLink()
-            self.progress = 0.0
-            return
-        }
-        self.progress -= Double((1/60) / self.duration)
-    }
-
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // 没有自定义半径和中心的话取默认
-        let radius = self.radius == 0.0 ? (min(rect.size.width, rect.size.height) - lineWidth) * 0.5 : self.radius
-        let center = self.cycleCenter == CGPoint.zero ? CGPoint(x: rect.size.width * 0.5, y: rect.size.height * 0.5) : self.cycleCenter
-        
-        let backPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        backPath.lineWidth = lineWidth
-        backPath.lineCapStyle = .round
-        backPath.lineJoinStyle = .round
-        backPathColor.set()
-        backPath.stroke()
-
-        let startAngle = CGFloat.pi * (-0.5)
-        let endAngle = CGFloat.pi * (-0.5) + CGFloat.pi * 2 * CGFloat(self.progress)
-        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-        cycleColor?.set()
-        path.lineWidth = lineWidth
-        path.lineCapStyle = .round
-        path.lineJoinStyle = .round
-        path.stroke()
-
-    }
-    // MARK: init func
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.addSubview(self.timerLabel)
-        let width = self.frame.size.width - lineWidth * 2 - Margin * 2
-        let height = self.frame.size.height - lineWidth * 2 - Margin * 2
-        self.timerLabel.frame = CGRect(x: (self.frame.size.height - height)  * 0.5, y: (self.frame.size.width - width)  * 0.5, width: width, height: height)
-        timerLabel.textColor = timerColor ?? UIColor.white
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     // MARK: property
     /// 圆圈的宽度
     var lineWidth: CGFloat = 5.0
@@ -113,6 +53,68 @@ class MZDrawView: UIView {
             self.setNeedsDisplay()
         }
     }
+    
+    // public func
+    
+    /// 在不用的时候要call一下 停掉link
+    // 比如 vc的deinit方法里
+    open func invalidateLink() {
+        guard let displayLink = self.displayLink else {
+            return
+        }
+        displayLink.isPaused = true
+        displayLink.invalidate()
+    }
+
+    // private func
+    
+    /// 倒计时 1/60s调用一次
+    @objc private func countDown() {
+        if progress < 0.0 || progress > 1.0 {
+            invalidateLink()
+            self.progress = 0.0
+            return
+        }
+        self.progress -= Double((1/60) / self.duration)
+    }
+    
+    override func draw(_ rect: CGRect) {
+        // 没有自定义半径和中心的话取默认
+        let radius = self.radius == 0.0 ? (min(rect.size.width, rect.size.height) - lineWidth) * 0.5 : self.radius
+        let center = self.cycleCenter == CGPoint.zero ? CGPoint(x: rect.size.width * 0.5, y: rect.size.height * 0.5) : self.cycleCenter
+        
+        let backPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        backPath.lineWidth = lineWidth
+        backPath.lineCapStyle = .round
+        backPath.lineJoinStyle = .round
+        backPathColor.set()
+        backPath.stroke()
+
+        let startAngle = CGFloat.pi * (-0.5)
+        let endAngle = CGFloat.pi * (-0.5) + CGFloat.pi * 2 * CGFloat(self.progress)
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        cycleColor?.set()
+        path.lineWidth = lineWidth
+        path.lineCapStyle = .round
+        path.lineJoinStyle = .round
+        path.stroke()
+
+    }
+    // MARK: init func
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addSubview(self.timerLabel)
+        let width = self.frame.size.width - lineWidth * 2 - Margin * 2
+        let height = self.frame.size.height - lineWidth * 2 - Margin * 2
+        self.timerLabel.frame = CGRect(x: (self.frame.size.height - height)  * 0.5, y: (self.frame.size.width - width)  * 0.5, width: width, height: height)
+        timerLabel.textColor = timerColor ?? UIColor.white
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
 }
 
