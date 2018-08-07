@@ -17,12 +17,13 @@ class ViewController: UIViewController {
     var drawView: MZDrawView?
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawView = MZDrawView(frame: CGRect(x: 100, y: 100, width: 100, height: 200))
+        drawView = MZDrawView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         drawView?.backPathColor = UIColor.red
         drawView?.cycleColor = UIColor.cyan
         drawView?.duration = 10
+        drawView?.textColor = UIColor.red
         // 半径
-        drawView?.radius = 20
+//        drawView?.radius = 20
         self.view.addSubview(drawView!)
         // Do any additional setup after loading the view.
     }

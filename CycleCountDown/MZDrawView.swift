@@ -17,7 +17,11 @@ class MZDrawView: UIView {
     /// 圆圈颜色
     var cycleColor: UIColor?
     /// 倒计时时间label的文字颜色
-    var timerColor: UIColor?
+    var textColor: UIColor? {
+        didSet {
+           self.timerLabel.textColor = textColor ?? UIColor.white
+        }
+    }
     /// 中间显示的倒计时时间
     var timerLabel: UILabel = {
         let label = UILabel()
@@ -103,11 +107,13 @@ class MZDrawView: UIView {
     // MARK: init func
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+//        self.backgroundColor = UIColor.white
         self.addSubview(self.timerLabel)
         let width = self.frame.size.width - lineWidth * 2 - Margin * 2
         let height = self.frame.size.height - lineWidth * 2 - Margin * 2
         self.timerLabel.frame = CGRect(x: (self.frame.size.height - height)  * 0.5, y: (self.frame.size.width - width)  * 0.5, width: width, height: height)
-        timerLabel.textColor = timerColor ?? UIColor.white
+        self.timerLabel.textColor = textColor ?? UIColor.white
         
     }
     
