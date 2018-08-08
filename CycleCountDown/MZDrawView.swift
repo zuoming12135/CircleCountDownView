@@ -7,8 +7,10 @@
 //
 
 import UIKit
+
 fileprivate let  Margin: CGFloat = 5.0
 class MZDrawView: UIView {
+
     // MARK: property
     /// 圆圈的宽度
     var lineWidth: CGFloat = 5.0
@@ -16,6 +18,8 @@ class MZDrawView: UIView {
     var backPathColor: UIColor = UIColor.clear
     /// 圆圈颜色
     var cycleColor: UIColor?
+    // 默认起始和结束都在圆的顶点
+    var angle: CGFloat = CGFloat.pi * (-0.5)
     /// 倒计时时间label的文字颜色
     var textColor: UIColor? {
         didSet {
@@ -94,9 +98,9 @@ class MZDrawView: UIView {
         backPathColor.set()
         backPath.stroke()
 
-        let startAngle = CGFloat.pi * (-0.5)
-        let endAngle = CGFloat.pi * (-0.5) + CGFloat.pi * 2 * CGFloat(self.progress)
-        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        
+        let endAngle = self.angle + CGFloat.pi * 2 * CGFloat(self.progress)
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: self.angle, endAngle: endAngle, clockwise: true)
         cycleColor?.set()
         path.lineWidth = lineWidth
         path.lineCapStyle = .round
@@ -107,14 +111,16 @@ class MZDrawView: UIView {
     // MARK: init func
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        self.backgroundColor = UIColor.white
         self.addSubview(self.timerLabel)
         let width = self.frame.size.width - lineWidth * 2 - Margin * 2
         let height = self.frame.size.height - lineWidth * 2 - Margin * 2
         self.timerLabel.frame = CGRect(x: (self.frame.size.height - height)  * 0.5, y: (self.frame.size.width - width)  * 0.5, width: width, height: height)
         self.timerLabel.textColor = textColor ?? UIColor.white
         
+    }
+    convenience init(frame: CGRect ,angle:CGFloat) {
+        self.init(frame: frame)
+        self.angle = angle
     }
     
     required init?(coder aDecoder: NSCoder) {
