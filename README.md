@@ -12,4 +12,9 @@ drawView?.duration = 10
 // 半径 (不设置的话就默认为MZDrawView的最大内切圆的半径)
 drawView?.radius = 20
 self.view.addSubview(drawView!)
+
+// 可以添加倒计时的时间喔
+@IBAction func update(_ sender: Any) {
+        self.drawView?.update(time: 20)
+    }
 ```
