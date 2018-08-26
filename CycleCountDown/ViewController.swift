@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBAction func update(_ sender: Any) {
+        self.drawView?.update(20)
+    }
     deinit {
         // 页面销毁的时候记得 call invalidateLink func
         self.drawView?.invalidateLink()
@@ -20,7 +23,7 @@ class ViewController: UIViewController {
         // default 默认为圆的顶点
 //        drawView = MZDrawView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         // 自定义圆的起始点
-        drawView = MZDrawView(frame: CGRect(x: 100, y: 100, width: 100, height: 100), angle: CGFloat.pi * (0.75))
+        drawView = MZDrawView(frame: CGRect(x: 100, y: 100, width: 100, height: 100), angle: CGFloat.pi * (0.5))
 
         drawView?.backPathColor = UIColor.red
         drawView?.cycleColor = UIColor.cyan
@@ -31,5 +34,6 @@ class ViewController: UIViewController {
         self.view.addSubview(drawView!)
         // Do any additional setup after loading the view.
     }
+    
 }
 

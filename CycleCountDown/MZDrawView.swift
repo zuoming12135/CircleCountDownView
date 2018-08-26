@@ -64,6 +64,19 @@ class MZDrawView: UIView {
     
     // public func
     
+    /// 更新进度，可以触发添加进度条
+    ///
+    open func update(_ time: Double) {
+        let orginalDuration = self.duration
+        let orginalProgress = self.progress
+        self.duration = orginalDuration + time
+        let newProgress = 1 -  (orginalProgress * orginalDuration) / (orginalDuration + time)
+        self.progress = newProgress
+        
+        
+        
+    }
+    
     /// 在不用的时候要call一下 停掉link
     // 比如 vc的deinit方法里
     open func invalidateLink() {
@@ -73,7 +86,8 @@ class MZDrawView: UIView {
         displayLink.isPaused = true
         displayLink.invalidate()
     }
-
+    
+    
     // private func
     
     /// 倒计时 1/60s调用一次
